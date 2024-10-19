@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
 
+const bookingController = require('./controllers/bookingController');
 const userRouter = require('./routes/userRouter');
 const tourRouter = require('./routes/tourRouter');
 const reviewRouter = require('./routes/reviewRouter');
