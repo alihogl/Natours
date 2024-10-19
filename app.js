@@ -7,6 +7,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const userRouter = require('./routes/userRouter');
 const tourRouter = require('./routes/tourRouter');
@@ -23,10 +24,25 @@ app.enable('trust proxy');
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
+// 1) Global Middlewares
+
+// Implement CORS
+app.use(cors());
+// Access-Control-Allow-Origin *
+
+// For specific origin
+// app.use(
+//   cors({
+//     origin: 'https:www.natours.com',
+//   }),
+// );
+
+// C0RS settings for non simple requests(del, patch...).
+// In non simple requests, browser automatically send options request
+app.options('*', cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
-
-// 1) Global Middlewares
 
 // Security HTTP headers
 app.use(
