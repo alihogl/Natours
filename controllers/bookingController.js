@@ -60,6 +60,7 @@ exports.createBookingCheckout = async (session) => {
   const price = session.amount_total / 100;
 
   console.log(tour, user, price);
+
   await Booking.create({ tour, user, price });
 };
 
@@ -68,7 +69,7 @@ exports.webhookCheckout = (req, res, next) => {
 
   let event;
   try {
-    event = Stripe.webhookCheckouts.constructEvent(
+    event = Stripe.webhooks.constructEvent(
       req.body,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET,
