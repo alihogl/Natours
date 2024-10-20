@@ -41,7 +41,6 @@ const sendErrorDev = (err, req, res) => {
   // B) RENDERED WEBSITE
   console.error('ERROR 💥', err);
   return res.status(err.statusCode).render('error', {
-    err,
     title: 'Something went wrong!',
     msg: err.message,
   });
@@ -55,7 +54,6 @@ const sendErrorProd = (err, req, res) => {
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
-        err,
       });
     }
     // B) Programming or other unknown error: don't leak error details
@@ -63,9 +61,8 @@ const sendErrorProd = (err, req, res) => {
     console.error('ERROR 💥', err);
     // 2) Send generic message
     return res.status(500).json({
-      err,
       status: 'error',
-      message: err,
+      message: 'Something went very wrong!',
     });
   }
 
@@ -74,8 +71,7 @@ const sendErrorProd = (err, req, res) => {
   if (err.isOperational) {
     return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
-      msg: err,
-      err,
+      msg: err.message,
     });
   }
   // B) Programming or other unknown error: don't leak error details
@@ -84,8 +80,7 @@ const sendErrorProd = (err, req, res) => {
   // 2) Send generic message
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
-    err,
-    msg: err,
+    msg: 'Please try again later.',
   });
 };
 
