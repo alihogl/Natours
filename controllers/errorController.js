@@ -55,6 +55,7 @@ const sendErrorProd = (err, req, res) => {
       return res.status(err.statusCode).json({
         status: err.status,
         message: err.message,
+        err,
       });
     }
     // B) Programming or other unknown error: don't leak error details
@@ -74,6 +75,7 @@ const sendErrorProd = (err, req, res) => {
     return res.status(err.statusCode).render('error', {
       title: 'Something went wrong!',
       msg: err.message,
+      err,
     });
   }
   // B) Programming or other unknown error: don't leak error details
@@ -82,6 +84,7 @@ const sendErrorProd = (err, req, res) => {
   // 2) Send generic message
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong!',
+    err,
     msg: 'Please try again later.',
   });
 };
